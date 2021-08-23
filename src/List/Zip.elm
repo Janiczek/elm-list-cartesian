@@ -3,7 +3,7 @@ module List.Zip exposing (andMap, map2, map3, map4, map5)
 {-| Zipping version of List `andMap` and `mapN` functions.
 
 This module exists mainly to illustrate the difference between the
-[`List.Cartesian`](https://package.elm-lang.org/packages/Janiczek/elm-list-cartesian/1.0.1/List-Cartesian)
+[`List.Cartesian`](https://package.elm-lang.org/packages/Janiczek/elm-list-cartesian/1.0.2/List-Cartesian)
 functions and the "common" ones from [`elm/core`](https://package.elm-lang.org/packages/elm/core/1.0.5/)
 and [`elm-community/list-extra`](https://package.elm-lang.org/packages/elm-community/list-extra/8.4.0/).
 

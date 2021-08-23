@@ -70,11 +70,11 @@ cartesian =
             [ Test.test "Identity" <|
                 \() ->
                     ([ identity ] |> List.Cartesian.andMap [ 1, 2, 3 ])
-                        |> Expect.equal [ 1, 2, 3 ]
+                        |> Expect.equalLists [ 1, 2, 3 ]
             , Test.test "Homomorphism" <|
                 \() ->
                     ([ (+) 1 ] |> List.Cartesian.andMap [ 2 ])
-                        |> Expect.equal [ (+) 1 2 ]
+                        |> Expect.equalLists [ (+) 1 2 ]
             , Test.test "Interchange" <|
                 \() ->
                     ([ (+) 1 ] |> List.Cartesian.andMap [ 2 ])
@@ -122,5 +122,34 @@ zip =
                         |> List.Zip.andMap list
                         |> List.Zip.andMap list
                         |> Expect.equalLists [ 6, 12, 18 ]
+            ]
+        , Test.describe "Lawfulness"
+            [ Test.test "Identity does NOT hold" <|
+                \() ->
+                    ([ identity ] |> List.Zip.andMap [ 1, 2, 3 ])
+                        |> Expect.notEqual [ 1, 2, 3 ]
+            , Test.test "Homomorphism" <|
+                \() ->
+                    ([ (+) 1 ] |> List.Zip.andMap [ 2 ])
+                        |> Expect.equalLists [ (+) 1 2 ]
+            , Test.test "Interchange" <|
+                \() ->
+                    ([ (+) 1 ] |> List.Zip.andMap [ 2 ])
+                        |> Expect.equal
+                            ([ (|>) 2 ] |> List.Zip.andMap [ (+) 1 ])
+            , Test.test "Composition" <|
+                \() ->
+                    ([ (<<) ]
+                        |> List.Zip.andMap [ (*) 2 ]
+                        |> List.Zip.andMap [ (*) 3 ]
+                        |> List.Zip.andMap [ 1 ]
+                    )
+                        |> Expect.equal
+                            ([ (*) 2 ]
+                                |> List.Zip.andMap
+                                    ([ (*) 3 ]
+                                        |> List.Zip.andMap [ 1 ]
+                                    )
+                            )
             ]
         ]

@@ -1,7 +1,7 @@
 {
     "type": "package",
     "name": "Janiczek/elm-list-cartesian",
-    "summary": "Specialized List `mapN` and `andMap` functions that give all combinations of list elements (Cartesian product) instead of zipping them",
+    "summary": "Specialized List mapN fns giving all combinations of items instead of zipping",
     "license": "BSD-3-Clause",
     "version": "1.0.0",
     "elm-version": "0.19.0 <= v < 0.20.0",

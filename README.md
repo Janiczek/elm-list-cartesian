@@ -9,14 +9,14 @@ List.map2 (+) [ 1, 2 ] [ 100, 200, 300 ]
 --> [ 101, 202 ]
 ```
 
-Functions in the [`List.Cartesian`](/List-Cartesian) module instead give you the Cartesian product -- all combinations of the list elements you provide:
+Functions in the [`List.Cartesian`](https://package.elm-lang.org/packages/Janiczek/elm-list-cartesian/1.0.0/List-Cartesian) module instead give you the Cartesian product -- all combinations of the list elements you provide:
 
 ```elm
 List.Cartesian.map2 (+) [ 1, 2 ] [ 100, 200, 300 ]
 --> [ 101, 201, 301, 102, 202, 302 ]
 ```
 
-The functions in the [`List.Zip`](/List-Zip) are just aliases of the `elm/core` functions and only serve a didactic purpose. But they might be useful to make your code more explicit if you need to use both variants in the same file!
+The functions in the [`List.Zip`](https://package.elm-lang.org/packages/Janiczek/elm-list-cartesian/1.0.0/List-Zip) are just aliases of the `elm/core` functions and only serve a didactic purpose. But they might be useful to make your code more explicit if you need to use both variants in the same file!
 
 ```elm
 import List.Cartesian

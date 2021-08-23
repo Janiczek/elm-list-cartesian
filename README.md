@@ -15,3 +15,5 @@ Functions in the `List.Cartesian` module instead give you the Cartesian product,
 List.Cartesian.map2 (+) [ 1, 2 ] [ 100, 200, 300 ]
 --> [ 101, 201, 301, 102, 202, 302 ]
 ```
+
+The functions in the `List.Zip` are just aliases of the `elm/core` functions and only serve a didactic purpose. But they might be useful to make your code more explicit if you need to use both variants in the same file!

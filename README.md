@@ -2,7 +2,7 @@
 
 **Specialized List `mapN` and `andMap` functions that give all combinations of list elements (Cartesian product) instead of zipping them**
 
-The [`List.mapN`](https://package.elm-lang.org/packages/elm/core/latest/List#map2) functions and the [`List.Extra.andMap`](https://package.elm-lang.org/packages/elm-community/list-extra/latest/List-Extra#andMap) function are of the zipping variety: they combine the first elements of all lists, then the second elements, then the third ones and so on, and stop as soon as any list runs out of items.
+The [`List.mapN`](https://package.elm-lang.org/packages/elm/core/1.0.5/List#map2) functions and the [`List.Extra.andMap`](https://package.elm-lang.org/packages/elm-community/list-extra/8.4.0/List-Extra#andMap) function are of the zipping variety: they combine the first elements of all lists, then the second elements, then the third ones and so on, and stop as soon as any list runs out of items.
 
 ```elm
 List.map2 (+) [ 1, 2 ] [ 100, 200, 300 ]

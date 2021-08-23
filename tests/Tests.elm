@@ -66,6 +66,35 @@ cartesian =
                             , ( 2, 4, 'b' )
                             ]
             ]
+        , Test.describe "Lawfulness"
+            [ Test.test "Identity" <|
+                \() ->
+                    ([ identity ] |> List.Cartesian.andMap [ 1, 2, 3 ])
+                        |> Expect.equal [ 1, 2, 3 ]
+            , Test.test "Homomorphism" <|
+                \() ->
+                    ([ (+) 1 ] |> List.Cartesian.andMap [ 2 ])
+                        |> Expect.equal [ (+) 1 2 ]
+            , Test.test "Interchange" <|
+                \() ->
+                    ([ (+) 1 ] |> List.Cartesian.andMap [ 2 ])
+                        |> Expect.equal
+                            ([ (|>) 2 ] |> List.Cartesian.andMap [ (+) 1 ])
+            , Test.test "Composition" <|
+                \() ->
+                    ([ (<<) ]
+                        |> List.Cartesian.andMap [ (*) 2 ]
+                        |> List.Cartesian.andMap [ (*) 3 ]
+                        |> List.Cartesian.andMap [ 1 ]
+                    )
+                        |> Expect.equal
+                            ([ (*) 2 ]
+                                |> List.Cartesian.andMap
+                                    ([ (*) 3 ]
+                                        |> List.Cartesian.andMap [ 1 ]
+                                    )
+                            )
+            ]
         ]
 
 

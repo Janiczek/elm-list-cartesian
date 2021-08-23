@@ -2,9 +2,12 @@ module List.Cartesian exposing (andMap, map2, map3, map4, map5)
 
 {-| Cartesian product version of List `andMap` and `mapN` functions.
 
-This module's functions behave differently from the "common" ones in `elm/core`
-and `elm-community/list-extra` in that instead of zipping they will run through
-all combinations of the lists you provide:
+This module's functions behave differently from the "common" ones in
+[`elm/core`](https://package.elm-lang.org/packages/elm/core/1.0.5/)
+and
+[`elm-community/list-extra`](https://package.elm-lang.org/packages/elm-community/list-extra/8.4.0/)
+in that instead of zipping they will run through all combinations of the lists
+you provide:
 
     List.Cartesian.map2 (+) [ 1, 2 ] [ 100, 200, 300 ]
     --> [ 101, 201, 301, 102, 202, 302 ]
@@ -19,10 +22,11 @@ Compare that with the default zipping behaviour:
 -}
 
 
-{-| A building block for arbitrary `mapN` functions. See [`map5`](#map5) for more info.
+{-| A building block for arbitrary `mapN` functions. See [`map5`](#map5) for more
+info.
 
-Note that `andMap` allows you to do stuff you might not realize is possible with
-`map2` etc.:
+Note that [`andMap`](#andMap) allows you to do stuff you might not realize is
+possible with [`map2`](#map2) etc.:
 
     [ (+), (*) ]
         |> List.Cartesian.andMap [ 1, 2 ]
@@ -43,7 +47,7 @@ andMap as_ fns =
         |> List.Cartesian.andMap xs
         |> List.Cartesian.andMap ys
 
-Also equivalent to `List.Extra.lift2`.
+Also equivalent to [`List.Extra.lift2`](https://package.elm-lang.org/packages/elm-community/list-extra/8.4.0/List-Extra#lift2).
 
     List.Cartesian.map2 (*) [ 10, 100 ] [ 1, 2, 3 ]
     --> [ 10, 20, 30, 100, 200, 300 ]
@@ -63,7 +67,7 @@ map2 fn as_ bs =
         |> List.Cartesian.andMap ys
         |> List.Cartesian.andMap zs
 
-Also equivalent to `List.Extra.lift3`.
+Also equivalent to [`List.Extra.lift3`](https://package.elm-lang.org/packages/elm-community/list-extra/8.4.0/List-Extra#lift3).
 
 -}
 map3 : (a -> b -> c -> d) -> List a -> List b -> List c -> List d
@@ -85,7 +89,7 @@ map3 fn as_ bs cs =
         |> List.Cartesian.andMap zs
         |> List.Cartesian.andMap ws
 
-Also equivalent to `List.Extra.lift4`.
+Also equivalent to [`List.Extra.lift4`](https://package.elm-lang.org/packages/elm-community/list-extra/8.4.0/List-Extra#lift4).
 
 -}
 map4 : (a -> b -> c -> d -> e) -> List a -> List b -> List c -> List d -> List e
@@ -114,8 +118,8 @@ map4 fn as_ bs cs ds =
         |> List.Cartesian.andMap ws
         |> List.Cartesian.andMap vs
 
-In case you're looking for `map6` etc., you can use the above `andMap` pattern to
-map as many lists you want.
+In case you're looking for `map6` etc., you can use the above [`andMap`](#andMap)
+pattern to map as many lists you want.
 
 -}
 map5 : (a -> b -> c -> d -> e -> f) -> List a -> List b -> List c -> List d -> List e -> List f

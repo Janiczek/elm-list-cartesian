@@ -1,7 +1,8 @@
-module Tests exposing (cartesian)
+module Tests exposing (cartesian, zip)
 
 import Expect
 import List.Cartesian
+import List.Zip
 import Test exposing (Test)
 
 
@@ -64,5 +65,33 @@ cartesian =
                             , ( 2, 4, 'a' )
                             , ( 2, 4, 'b' )
                             ]
+            ]
+        ]
+
+
+zip : Test
+zip =
+    Test.describe "List.Zip"
+        [ Test.describe "andMap"
+            [ Test.test "implements map6" <|
+                \() ->
+                    let
+                        list =
+                            [ 1, 2, 3 ]
+
+                        length =
+                            List.length list
+
+                        fn a b c d e f =
+                            a + b + c + d + e + f
+                    in
+                    List.repeat length fn
+                        |> List.Zip.andMap list
+                        |> List.Zip.andMap list
+                        |> List.Zip.andMap list
+                        |> List.Zip.andMap list
+                        |> List.Zip.andMap list
+                        |> List.Zip.andMap list
+                        |> Expect.equalLists [ 6, 12, 18 ]
             ]
         ]

@@ -1,9 +1,23 @@
 module Tests exposing (cartesian, zip)
 
 import Expect
+import Fuzz exposing (Fuzzer)
 import List.Cartesian
 import List.Zip
 import Test exposing (Test)
+
+
+list : Fuzzer (List Int)
+list =
+    Fuzz.list Fuzz.int
+
+
+listAtLeast2Elements : Fuzzer (List Int)
+listAtLeast2Elements =
+    Fuzz.map3 (\a b xs -> a :: b :: xs)
+        Fuzz.int
+        Fuzz.int
+        (Fuzz.list Fuzz.int)
 
 
 cartesian : Test
@@ -47,6 +61,11 @@ cartesian =
                         [ 1, 2 ]
                         [ 3, 4 ]
                         |> Expect.equalLists [ ( 1, 3 ), ( 1, 4 ), ( 2, 3 ), ( 2, 4 ) ]
+            , Test.fuzz2 list list "len(result) = len(list1) * len(list2)" <|
+                \list1 list2 ->
+                    List.Cartesian.map2 Tuple.pair list1 list2
+                        |> List.length
+                        |> Expect.equal (List.length list1 * List.length list2)
             ]
         , Test.describe "map3"
             [ Test.test "Tries all combinations (doesn't zip)" <|
@@ -66,11 +85,21 @@ cartesian =
                             , ( 2, 4, 'b' )
                             ]
             ]
+        , Test.describe "Equivalences"
+            [ Test.fuzz2 list list "map2 = pure >> andMap >> andMap" <|
+                \list1 list2 ->
+                    List.Cartesian.map2 (+) list1 list2
+                        |> Expect.equalLists
+                            ([ (+) ]
+                                |> List.Cartesian.andMap list1
+                                |> List.Cartesian.andMap list2
+                            )
+            ]
         , Test.describe "Lawfulness"
-            [ Test.test "Identity" <|
-                \() ->
-                    ([ identity ] |> List.Cartesian.andMap [ 1, 2, 3 ])
-                        |> Expect.equalLists [ 1, 2, 3 ]
+            [ Test.fuzz list "Identity" <|
+                \list_ ->
+                    ([ identity ] |> List.Cartesian.andMap list_)
+                        |> Expect.equalLists list_
             , Test.test "Homomorphism" <|
                 \() ->
                     ([ (+) 1 ] |> List.Cartesian.andMap [ 2 ])
@@ -102,32 +131,32 @@ zip : Test
 zip =
     Test.describe "List.Zip"
         [ Test.describe "andMap"
-            [ Test.test "implements map6" <|
-                \() ->
+            [ Test.fuzz list "implements map6" <|
+                \list_ ->
                     let
-                        list =
-                            [ 1, 2, 3 ]
-
                         length =
-                            List.length list
+                            List.length list_
 
                         fn a b c d e f =
                             a + b + c + d + e + f
+
+                        timesSix =
+                            List.map ((*) 6) list_
                     in
                     List.repeat length fn
-                        |> List.Zip.andMap list
-                        |> List.Zip.andMap list
-                        |> List.Zip.andMap list
-                        |> List.Zip.andMap list
-                        |> List.Zip.andMap list
-                        |> List.Zip.andMap list
-                        |> Expect.equalLists [ 6, 12, 18 ]
+                        |> List.Zip.andMap list_
+                        |> List.Zip.andMap list_
+                        |> List.Zip.andMap list_
+                        |> List.Zip.andMap list_
+                        |> List.Zip.andMap list_
+                        |> List.Zip.andMap list_
+                        |> Expect.equalLists timesSix
             ]
         , Test.describe "Lawfulness"
-            [ Test.test "Identity does NOT hold" <|
-                \() ->
-                    ([ identity ] |> List.Zip.andMap [ 1, 2, 3 ])
-                        |> Expect.notEqual [ 1, 2, 3 ]
+            [ Test.fuzz listAtLeast2Elements "Identity does NOT hold" <|
+                \list_ ->
+                    ([ identity ] |> List.Zip.andMap list_)
+                        |> Expect.notEqual list_
             , Test.test "Homomorphism" <|
                 \() ->
                     ([ (+) 1 ] |> List.Zip.andMap [ 2 ])

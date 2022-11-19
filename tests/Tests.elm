@@ -85,6 +85,77 @@ cartesian =
                             , ( 2, 4, 'b' )
                             ]
             ]
+        , Test.describe "map4"
+            [ Test.test "Tries all combinations (doesn't zip)" <|
+                \() ->
+                    List.Cartesian.map4 (\a b c d -> [ a, b, c, d ])
+                        [ 1, 2 ]
+                        [ 3, 4 ]
+                        [ 5, 6 ]
+                        [ 7, 8 ]
+                        |> Expect.equalLists
+                            [ [ 1, 3, 5, 7 ]
+                            , [ 1, 3, 5, 8 ]
+                            , [ 1, 3, 6, 7 ]
+                            , [ 1, 3, 6, 8 ]
+                            , [ 1, 4, 5, 7 ]
+                            , [ 1, 4, 5, 8 ]
+                            , [ 1, 4, 6, 7 ]
+                            , [ 1, 4, 6, 8 ]
+                            , [ 2, 3, 5, 7 ]
+                            , [ 2, 3, 5, 8 ]
+                            , [ 2, 3, 6, 7 ]
+                            , [ 2, 3, 6, 8 ]
+                            , [ 2, 4, 5, 7 ]
+                            , [ 2, 4, 5, 8 ]
+                            , [ 2, 4, 6, 7 ]
+                            , [ 2, 4, 6, 8 ]
+                            ]
+            ]
+        , Test.describe "map5"
+            [ Test.test "Tries all combinations (doesn't zip)" <|
+                \() ->
+                    List.Cartesian.map5 (\a b c d e -> [ a, b, c, d, e ])
+                        [ 1, 2 ]
+                        [ 3, 4 ]
+                        [ 5, 6 ]
+                        [ 7, 8 ]
+                        [ 9, 10 ]
+                        |> Expect.equalLists
+                            [ [ 1, 3, 5, 7, 9 ]
+                            , [ 1, 3, 5, 7, 10 ]
+                            , [ 1, 3, 5, 8, 9 ]
+                            , [ 1, 3, 5, 8, 10 ]
+                            , [ 1, 3, 6, 7, 9 ]
+                            , [ 1, 3, 6, 7, 10 ]
+                            , [ 1, 3, 6, 8, 9 ]
+                            , [ 1, 3, 6, 8, 10 ]
+                            , [ 1, 4, 5, 7, 9 ]
+                            , [ 1, 4, 5, 7, 10 ]
+                            , [ 1, 4, 5, 8, 9 ]
+                            , [ 1, 4, 5, 8, 10 ]
+                            , [ 1, 4, 6, 7, 9 ]
+                            , [ 1, 4, 6, 7, 10 ]
+                            , [ 1, 4, 6, 8, 9 ]
+                            , [ 1, 4, 6, 8, 10 ]
+                            , [ 2, 3, 5, 7, 9 ]
+                            , [ 2, 3, 5, 7, 10 ]
+                            , [ 2, 3, 5, 8, 9 ]
+                            , [ 2, 3, 5, 8, 10 ]
+                            , [ 2, 3, 6, 7, 9 ]
+                            , [ 2, 3, 6, 7, 10 ]
+                            , [ 2, 3, 6, 8, 9 ]
+                            , [ 2, 3, 6, 8, 10 ]
+                            , [ 2, 4, 5, 7, 9 ]
+                            , [ 2, 4, 5, 7, 10 ]
+                            , [ 2, 4, 5, 8, 9 ]
+                            , [ 2, 4, 5, 8, 10 ]
+                            , [ 2, 4, 6, 7, 9 ]
+                            , [ 2, 4, 6, 7, 10 ]
+                            , [ 2, 4, 6, 8, 9 ]
+                            , [ 2, 4, 6, 8, 10 ]
+                            ]
+            ]
         , Test.describe "Equivalences"
             [ Test.fuzz2 list list "map2 = pure >> andMap >> andMap" <|
                 \list1 list2 ->
@@ -151,6 +222,45 @@ zip =
                         |> List.Zip.andMap list_
                         |> List.Zip.andMap list_
                         |> Expect.equalLists timesSix
+            ]
+        , Test.describe "map3"
+            [ Test.test "Zips (doesn't try all combinations)" <|
+                \() ->
+                    List.Zip.map3 (\a b c -> ( a, b, c ))
+                        [ 1, 2 ]
+                        [ 3, 4 ]
+                        [ 'a', 'b' ]
+                        |> Expect.equalLists
+                            [ ( 1, 3, 'a' )
+                            , ( 2, 4, 'b' )
+                            ]
+            ]
+        , Test.describe "map4"
+            [ Test.test "Zips (doesn't try all combinations)" <|
+                \() ->
+                    List.Zip.map4 (\a b c d -> [ a, b, c, d ])
+                        [ 1, 2 ]
+                        [ 3, 4 ]
+                        [ 5, 6 ]
+                        [ 7, 8 ]
+                        |> Expect.equalLists
+                            [ [ 1, 3, 5, 7 ]
+                            , [ 2, 4, 6, 8 ]
+                            ]
+            ]
+        , Test.describe "map5"
+            [ Test.test "Zips (doesn't try all combinations)" <|
+                \() ->
+                    List.Zip.map5 (\a b c d e -> [ a, b, c, d, e ])
+                        [ 1, 2 ]
+                        [ 3, 4 ]
+                        [ 5, 6 ]
+                        [ 7, 8 ]
+                        [ 9, 10 ]
+                        |> Expect.equalLists
+                            [ [ 1, 3, 5, 7, 9 ]
+                            , [ 2, 4, 6, 8, 10 ]
+                            ]
             ]
         , Test.describe "Lawfulness"
             [ Test.fuzz listAtLeast2Elements "Identity does NOT hold" <|
